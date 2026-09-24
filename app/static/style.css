@@ -1,0 +1,133 @@
+/* Look: "Reading room", warm paper with serif source text. Motion only for feedback, ease-out, reduced-motion aware. */
+:root {
+  --text: #1F1D1A;
+  --muted: #5F5B55;
+  --bg: #FAF8F5;
+  --card: #FFFFFF;
+  --line: #E6E1D9;
+  --accent: #2B4C7E;
+  --supported: #2E6B3F;
+  --contradicted: #A33A2B;
+  --mixed: #8A5A00;
+  --not-found: #5F5B55;
+  --needs-review: #6B4C9A;
+  --flag-bg: #FFF4D6;
+  --radius: 6px;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+main { max-width: 720px; margin: 0 auto; padding: 24px 16px 40px; }
+nav { display: flex; gap: 16px; margin-bottom: 24px; }
+a { color: var(--accent); }
+h1 { font-size: 24px; line-height: 1.3; margin: 0 0 8px; }
+h2 { font-size: 18px; margin: 40px 0 16px; }
+.muted { color: var(--muted); font-size: 14px; margin: 0 0 8px; }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+label { display: block; font-weight: 600; margin: 16px 0 8px; }
+label:first-child { margin-top: 0; }
+input, textarea { width: 100%; font: inherit; padding: 8px; border: 1px solid var(--line); border-radius: var(--radius); }
+
+button {
+  margin-top: 16px;
+  padding: 8px 24px;
+  font: inherit;
+  font-weight: 600;
+  color: #FFFFFF;
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: transform 160ms var(--ease-out);
+}
+button:active { transform: scale(0.97); }
+/* Slow pulse while the model runs, so a 5+ second wait doesn't look frozen. Opacity only. */
+button:disabled { opacity: 0.6; cursor: wait; animation: pulse 1.2s ease-in-out infinite; }
+button.secondary { color: var(--accent); background: var(--card); }
+.actions { display: flex; gap: 8px; }
+
+/* Verdicts: always a text label, the color only repeats it. */
+.verdict { font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; font-size: 14px; }
+.verdict.supported { color: var(--supported); }
+.verdict.contradicted { color: var(--contradicted); }
+.verdict.mixed { color: var(--mixed); }
+.verdict.not_found { color: var(--not-found); }
+.verdict.needs_review { color: var(--needs-review); }
+
+.result { border-left-width: 6px; animation: enter 200ms var(--ease-out); }
+.result.supported { border-left-color: var(--supported); }
+.result.contradicted { border-left-color: var(--contradicted); }
+.result.mixed { border-left-color: var(--mixed); }
+.result.not_found { border-left-color: var(--not-found); }
+.result.needs_review { border-left-color: var(--needs-review); }
+
+.flags {
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--flag-bg);
+  border: 1px solid var(--mixed);
+  border-radius: var(--radius);
+  color: var(--mixed);
+}
+.flags ul { margin: 8px 0 0; padding-left: 24px; }
+
+.error {
+  margin: 0 0 16px;
+  padding: 16px;
+  background: var(--card);
+  border: 1px solid var(--contradicted);
+  border-left-width: 6px;
+  border-radius: var(--radius);
+  color: var(--contradicted);
+  font-weight: 600;
+}
+
+/* Source text is the hero: serif, larger, so it reads as "the document". */
+.passage {
+  margin: 0 0 16px;
+  padding: 16px 24px;
+  background: var(--card);
+  border-left: 3px solid var(--line);
+  border-radius: var(--radius);
+}
+.passage p:last-child { margin: 0; font: 17px/1.6 Georgia, serif; }
+
+table { width: 100%; border-collapse: collapse; background: var(--card); }
+th, td { text-align: left; padding: 8px 16px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 14px; color: var(--muted); }
+
+@keyframes enter {
+  from { opacity: 0; transform: translateY(4px); }
+}
+
+@keyframes pulse {
+  50% { opacity: 0.9; }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  a:hover { text-decoration-thickness: 2px; }
+  button:hover { background: #22406B; }
+  button.secondary:hover { background: var(--bg); }
+}
+
+/* Reduced motion: keep the fade, drop the movement. */
+@media (prefers-reduced-motion: reduce) {
+  button { transition: none; }
+  button:active { transform: none; }
+  @keyframes enter { from { opacity: 0; } }
+}

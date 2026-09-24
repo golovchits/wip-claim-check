@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Review {{ review.id }} · Claim Check</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main>
+    <nav><a href="/">New check</a> <a href="/reviews">Reviews</a></nav>
+
+    <article class="card result {{ review.verdict }}">
+      <p class="muted">Claim · {{ review.filename }}</p>
+      <h1>{{ review.claim }}</h1>
+      <p><span class="verdict {{ review.verdict }}">{{ VERDICT_LABELS.get(review.verdict, review.verdict) }}</span></p>
+      {% if review.explanation %}<p>{{ review.explanation }}</p>{% endif %}
+
+      {% if review.flags %}
+      <div class="flags">
+        <strong>⚠ Check this</strong>
+        <ul>{% for flag in review.flags %}<li>{{ flag }}</li>{% endfor %}</ul>
+      </div>
+      {% endif %}
+    </article>
+
+    <h2>Cited passages</h2>
+    {% for p in cited %}
+    <blockquote class="passage">
+      <p class="muted">[#{{ p.id }}] page {{ p.page }}</p>
+      <p>{{ p.text }}</p>
+    </blockquote>
+    {% else %}
+    <p class="muted">No passages cited.</p>
+    {% endfor %}
+
+    <h2>Decision</h2>
+    <p>Status: <strong>{{ review.status }}</strong>{% if review.reviewer_note %} · Note: {{ review.reviewer_note }}{% endif %}</p>
+    <form class="card" action="/reviews/{{ review.id }}/decision" method="post">
+      <label for="note">Note (optional)</label>
+      <textarea id="note" name="note" rows="2"></textarea>
+      <div class="actions">
+        <button name="decision" value="approved" type="submit">Approve</button>
+        <button name="decision" value="rejected" type="submit" class="secondary">Reject</button>
+      </div>
+    </form>
+  </main>
+</body>
+</html>

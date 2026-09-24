@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reviews · Claim Check</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main>
+    <nav><a href="/">New check</a> <a href="/reviews">Reviews</a></nav>
+    <h1>Reviews</h1>
+
+    {% if reviews %}
+    <table>
+      <thead><tr><th>Claim</th><th>Verdict</th><th>Status</th></tr></thead>
+      <tbody>
+        {% for r in reviews %}
+        <tr>
+          <td><a href="/reviews/{{ r.id }}">{{ r.claim }}</a></td>
+          <td><span class="verdict {{ r.verdict }}">{{ VERDICT_LABELS.get(r.verdict, r.verdict) }}</span></td>
+          <td>{{ r.status }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="muted">No reviews yet.</p>
+    {% endif %}
+  </main>
+</body>
+</html>

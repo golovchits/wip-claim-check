@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claim Check</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main>
+    <nav><a href="/">New check</a> <a href="/reviews">Reviews</a></nav>
+    <h1>Claim Check</h1>
+    <p class="muted">Is this claim actually in the source? Upload a PDF and type one claim.</p>
+
+    {% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
+
+    <form class="card" action="/check" method="post" enctype="multipart/form-data"
+          onsubmit="this.button.disabled = true; this.button.textContent = 'Checking...';">
+      <label for="pdf">Source PDF</label>
+      <input id="pdf" name="pdf" type="file" accept=".pdf,application/pdf" required>
+
+      <label for="claim">Claim</label>
+      <textarea id="claim" name="claim" rows="3" required>{{ claim or "" }}</textarea>
+
+      <button name="button" type="submit">Check</button>
+    </form>
+  </main>
+</body>
+</html>

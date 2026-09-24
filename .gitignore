@@ -1,0 +1,21 @@
+# Secrets
+.env
+
+# Local-only planning notes
+START_HERE.md
+docs/BUILD_PLAN.md
+docs/DECISIONS.md
+docs/DESIGN_SYSTEM.md
+
+# OS and Python clutter
+.DS_Store
+__pycache__/
+
+# Local Claude Code settings
+.claude/
+
+# Exported Claude Code transcripts (local only)
+.cc-history/
+
+# Test PDFs stay local
+tests/*.pdf
