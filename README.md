@@ -73,4 +73,5 @@ The tests cover passage splitting and the output check, using fake model answers
 - One claim and one document per check.
 - Cohere trial: 20 calls per minute, 1,000 per month. One check uses one call.
 - No login: anyone with the URL can submit and review.
+- When a claim's subject is missing from the document, the model may cite most of the passages and answer Contradicted rather than Not found.
 - The verdict can be wrong while looking clean. That is why a person approves every result.
